@@ -1,109 +1,85 @@
-let usuarios = [
-  { nombre: "juan", banco: "nacion", tarjeta: 123456 },
-  { nombre: "pedro", banco: "santander", tarjeta: 654321 },
-  { nombre: "camila", banco: "bbva", tarjeta: 789456 },
-  { nombre: "matias", banco: "provincia", tarjeta: 456123 },
+let productos = [
 ];
-function validarCuotas() {
-  let cuotas = parseInt(prompt("elija entre 1, 3 o 6 cuotas"));
-  while (cuotas != 1 && cuotas != 3 && cuotas != 6) {
-    cuotas = parseInt(prompt("cuota no disponible, ingrese de nuevo"));
-  }
-  return cuotas;
+
+productos = JSON.parse(localStorage.getItem('productos'))
+if(productos== null){
+   productos = []
 }
-function validarUsuario(usuario) {
-  alert(`sus datos son ${usuario.nombre}, ${usuario.tarjeta},${usuario.banco}`);
-  let validacion = prompt("los datos son correctos??");
-  if (validacion == "si") {
-    return true;
-  }
+function guardarStorage (){
+localStorage.setItem('productos',JSON.stringify(productos))}
 
-  return false;
+function agregarProducto() {
+  let nuevoProducto = document.getElementById("producto");
+	let nuevaMarca = document.getElementById("marca");
+	let nuevoPrecio = document.getElementById("precio");
+
+  if(nuevoProducto.value === '' || nuevaMarca.value === '' || nuevoPrecio.value === ''){
+  return alert('un campo esta vacio')
+}
+	productos.push({
+    id: productos.length,
+		producto: nuevoProducto.value,
+		marca: nuevaMarca.value,
+		precio: nuevoPrecio.value
+	});
+  nuevoProducto.value = '';
+  nuevaMarca.value = '';
+  nuevoPrecio.value = '';
+  guardarStorage();
+  alert('el producto fue cargado con exito')
 }
 
-function agregarUsuario() {
-  let nuevoUsuario = prompt("ingrese su nombre");
-  let nuevoBanco = prompt("ingrese su banco");
-  let nuevaTarjeta = prompt(" ingrese su tarjeta");
+let formularioAgregar = document.getElementById("formularioAgregar");
+formularioAgregar.addEventListener("submit", (e) => {
+	agregarProducto();
+	e.preventDefault();
+});
 
-  usuarios.push({
-    nombre: nuevoUsuario,
-    banco: nuevoBanco,
-    tarjeta: nuevaTarjeta,
-  });
-  console.log(usuarios);
-}
-agregarUsuario();
-function main() {
-  let ingresante = prompt("ingrese su nombre").toLowerCase();
-  let usuario = usuarios.find((usuario) => usuario.nombre == ingresante);
-  if (usuario == undefined) {
-    return alert("necesitas una cuenta bancaria para entrar");
-  }
-
-  let bancoSelecto;
-
-  let banco = usuario.banco;
-  if (banco == "santander" || banco == "bbva" || banco == "provincia") {
-    bancoSelecto = true;
-    alert("usted puede pagar en 3 o 6 cuotas con interes");
-  } else if (banco == "nacion") {
-    alert("usted goza de 3 o 6 cuotas sin interes");
+document.getElementById('agregar').addEventListener('click', function() {
+  let menu = document.getElementById('menuAgregar');
+  if (menu.style.display === 'none' || menu.style.display === '') {
+    menu.style.display = 'block';
   } else {
-    alert("usted no goza de descuentos");
+    menu.style.display = 'none';
   }
-  let valor;
-  let precio = parseInt(
-    prompt("ingrese valor(no hay cuotas para compras menores a 1000)")
-  );
-  if (precio < 1000) {
-    alert("no podes pagar en cuotas");
+});
+document.getElementById('botonBuscar').addEventListener('click', function() {
+  let menu = document.getElementById('menuBuscar');
+  if (menu.style.display === 'none' || menu.style.display === '') {
+    menu.style.display = 'block';
+  } else {
+    menu.style.display = 'none';
   }
-  if (precio >= 1000 && bancoSelecto) {
-    let cuotas = validarCuotas();
+});
 
-    switch (cuotas) {
-      case 1:
-        valor = precio * 1.1;
-        alert(`el precio final es de ${valor}`);
 
-        break;
-      case 3:
-        valor = precio * 1.5;
-        alert(`el precio final a pagar es de ${valor}`);
-        alert(`el precio a pagar por cuota es de ${valor / cuotas}`);
+let productoBuscado = document.getElementById('buscarProducto')
+let buscar = document.getElementById('buscar')
 
-        break;
-
-      case 6:
-        valor = precio * 2;
-        alert(`el precio final a pagar es de ${valor}`);
-        alert(`el precio a pagar por cuota es de ${valor / cuotas}`);
-        break;
-      default:
-        alert("cuota no disponible,reinicie la pagina e intente de nuevo");
-        break;
-    }
-    let esValido = validarUsuario(usuario);
-    if (esValido == true) {
-      alert("la compra fue realizada con exito");
-    } else {
-      alert("hubo un error,recargue la pagina y vuelva a intentarlo");
-    }
-  }
-  if (precio >= 1000 && banco == "nacion") {
-    for (let i = 1; i <= 6; i++) {
-      if (i == 1 || i == 3 || i == 6) {
-        alert(
-          "el precio por cuota es de " +
-            precio / i +
-            ` en ${i} cuotas sin interes`
-        );
-      }
-    }
-    cuotas = validarCuotas();
-    alert(`usted va a pagar ${precio} en ${cuotas} cuotas sin interes`);
-  }
+function buscarProducto(){
+let nombre = productoBuscado.value;
+let productoSelecto = productos.find(item => item.producto === nombre);
+if(productoSelecto === undefined){
+ return alert('el producto no fue encontrado')
 }
+let anuncio = document.createElement('div')
+  anuncio.innerHTML = `producto:${productoSelecto.producto} <br> ${productoSelecto.precio} <br> ${productoSelecto.marca}`
+  document.body.append(anuncio)
+  let borrar = document.createElement('button')
+}
+let formularioBuscar = document.getElementById("formularioBuscar");
+formularioBuscar.addEventListener("submit", (e) => {
+  e.preventDefault();
+  buscarProducto();
+  productoBuscado.value = '';
+})
 
-main();
+productos.forEach(item => {
+  let div = document.getElementById('catalogo')
+  let div2 = document.createElement('div');
+  div2.innerHTML= `<h2>nombre:${item.producto}</h2>
+  <p>marca:${item.marca}</p>
+  <b>precio:${item.precio}</b>`
+  div.append(div2)
+  // console.log(item);
+});

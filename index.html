@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1></h1>
-<script src="./main.js"></script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<button id="agregar">agregar</button>
+		<div id="menuAgregar" style="display: none">
+			<form id="formularioAgregar">
+				<input type="text" id="producto" placeholder="producto" />
+				<input type="text" id="marca" placeholder="marca" />
+				<input type="numero" id="precio" placeholder="precio" />
+				<input type="submit" id="enviar" />
+			</form>
+		</div>
+
+		<button id="botonBuscar">buscar</button>
+		<div id="menuBuscar" style="display: none">
+			<form id="formularioBuscar">
+				<input
+					type="text"
+					id="buscarProducto"
+					placeholder="busque producto por nombre"
+				/>
+				<input type="submit" id="buscar" />
+			</form>
+		</div>
+		<div id="catalogo">
+			
+		</div>
+		<script src="./main.js"></script>
+	</body>
 </html>
