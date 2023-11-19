@@ -60,12 +60,12 @@ function buscarProducto(){
 let nombre = productoBuscado.value;
 let productoSelecto = productos.find(item => item.producto === nombre);
 if(productoSelecto === undefined){
- return alert('el producto no fue encontrado')
+  Swal.fire('el producto no fue encontrado');
 }
-let anuncio = document.createElement('div')
-  anuncio.innerHTML = `producto:${productoSelecto.producto} <br> ${productoSelecto.precio} <br> ${productoSelecto.marca}`
-  document.body.append(anuncio)
-  let borrar = document.createElement('button')
+else {
+  setTimeout(()=> Swal.fire(`producto:${productoSelecto.producto} <br> precio:${productoSelecto.precio} <br> marca:${productoSelecto.marca}`),
+  1500)
+}
 }
 let formularioBuscar = document.getElementById("formularioBuscar");
 formularioBuscar.addEventListener("submit", (e) => {
@@ -81,5 +81,17 @@ productos.forEach(item => {
   <p>marca:${item.marca}</p>
   <b>precio:${item.precio}</b>`
   div.append(div2)
-  // console.log(item);
 });
+
+
+fetch('./ofertas.json')
+.then((response) => response.json())
+.then((data) => 
+  data.forEach((producto) =>{
+  let ofertas = document.getElementById('ofertas');
+  let divOfertas = document.createElement('div');
+  divOfertas.innerHTML = `<h2>super oferta!!!</h2> <br> <h3>producto:${producto.nombre}</h3>
+   <br> <b>precio:${producto.precio}</b> 
+   <br> <i> marca:${producto.marca}</i>`
+   ofertas.append(divOfertas)
+}))

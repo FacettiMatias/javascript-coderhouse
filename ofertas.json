@@ -1,0 +1,17 @@
+[
+    {
+      "nombre": "guaymallen chocolate",
+      "marca": "guaymallen",
+      "precio": 200
+    },
+    {
+      "nombre": "mogul frutilla",
+      "marca": "mogul",
+      "precio": 300
+    },
+    {
+      "nombre": "rockstar frutilla",
+      "marca": "rockstar",
+      "precio": 600
+    }
+  ]
